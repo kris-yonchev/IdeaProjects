@@ -42,7 +42,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 //        printAllAuthorsAndNumberOfTheirBooks();
 //        pritnALlBooksByAuthorNameOrderByReleaseDate("George", "Powell");
 
-        System.out.println("Enter exercise number to test[1-13]: ");
+        System.out.println("Enter exercise number to test[1-14]: ");
         int problemNumber = Integer.parseInt(scanner.nextLine());
         switch (problemNumber) {
             case 1:
