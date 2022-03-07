@@ -6,6 +6,8 @@ import com.example.springintro.model.entity.EditionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -52,5 +54,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Modifying
     int deleteByCopiesLessThan(Integer amount);
+
+    @Query(value = "CALL usp_get_author_book_count(:author_name);", nativeQuery = true)
+    int getAuthorBookCount(@Param("author_name") String authorName);
 }
 

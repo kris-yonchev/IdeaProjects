@@ -84,11 +84,22 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
             case 13:
                 problem13();
                 break;
+            case 14:
+                problem14();
+                break;
             default:
                 System.out.println("Invalid exercise number!");
                 break;
         }
 
+
+    }
+
+    private void problem14() {
+        System.out.println("Enter author name: ");
+        String authorName = scanner.nextLine();
+        int count = bookService.getAuthorBookCount(authorName);
+        System.out.printf("Author %s has written %d books\n", authorName, count);
     }
 
     private void problem13() {

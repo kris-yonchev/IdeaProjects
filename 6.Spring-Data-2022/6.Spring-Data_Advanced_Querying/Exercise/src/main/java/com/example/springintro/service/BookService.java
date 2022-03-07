@@ -43,4 +43,6 @@ public interface BookService {
     int saveAll(Iterable<Book> books);
 
     int deleteBooksByCopiesLessThan(Integer amount);
+
+    int getAuthorBookCount(String authorName);
 }
