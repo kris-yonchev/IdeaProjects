@@ -40,7 +40,10 @@ public class UserServiceImpl implements UserService {
             return "Passwords do not match!";
         }
 
-        User user = new User(email, password, fullName);
+        User user = new User(email, password, fullName, false);
+        if (this.userRepository.count() == 0) {
+            user.setAdministrator(true);
+        }
         userRepository.save(user);
 
         return String.format("%s was registered!", fullName.split("\\s+")[0]);

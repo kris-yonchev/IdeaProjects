@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -30,16 +31,20 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
+    @OneToOne(mappedBy = "user")
+    private ShoppingCart shoppingCart;
+
     public User() {
         this.games = new ArrayList<>();
         this.orders = new ArrayList<>();
     }
 
-    public User(String email, String password, String fullName) {
+    public User(String email, String password, String fullName, boolean isAdministrator) {
         this();
         this.email = email;
         this.password = password;
         this.fullName = fullName;
+        this.isAdministrator = false;
     }
 
     public int getId() {
@@ -101,4 +106,13 @@ public class User {
     public void purchase(Game game) {
         this.games.add(game);
     }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
 }

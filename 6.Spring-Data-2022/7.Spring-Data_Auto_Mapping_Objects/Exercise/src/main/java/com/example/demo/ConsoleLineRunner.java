@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.services.GameService;
+import com.example.demo.services.ShoppingCartService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,13 +14,15 @@ public class ConsoleLineRunner implements CommandLineRunner {
 
     private final UserService userService;
     private final GameService gameService;
+    private final ShoppingCartService shoppingCartService;
 
     @Autowired
-    public ConsoleLineRunner(UserService userService, GameService gameService) {
+    public ConsoleLineRunner(UserService userService, GameService gameService, ShoppingCartService shoppingCartService) {
         this.userService = userService;
         this.gameService = gameService;
+        this.shoppingCartService = shoppingCartService;
     }
-    
+
     @Override
     public void run(String... args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -51,6 +54,12 @@ public class ConsoleLineRunner implements CommandLineRunner {
                 System.out.println(gameService.printDetailGame(tokens[1]));
             } else if (tokens[0].equals("OwnedGames")) {
                 System.out.println(gameService.printOwnedGames(userService.getLoggedUser()));
+            } else if (tokens[0].equals("AddItem")) {
+                System.out.println(shoppingCartService.AddItem(tokens[1]));
+            } else if (tokens[0].equals("RemoveItem")) {
+                System.out.println(shoppingCartService.removeItem(tokens[1]));
+            } else if (tokens[0].equals("BuyItem")) {
+                System.out.println(shoppingCartService.BuyItem());
             }
 
             System.out.println("Choose action (If you want to end the operation enter End): ");
