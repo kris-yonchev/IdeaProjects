@@ -69,7 +69,11 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         System.out.println("Enter upper bound: ");
         BigDecimal upper = new BigDecimal(scanner.nextLine());
 
-        List<ProductNameAndPriceDto> allWthPriceInRange = productService.findPriceWithPriceInRange(lower, upper);
+        List<ProductNameAndPriceDto> allWithPriceInRange = productService.findPriceWithPriceInRange(lower, upper);
+
+        for (ProductNameAndPriceDto productNameAndPriceDto : allWithPriceInRange) {
+            System.out.println(gson.toJson(productNameAndPriceDto));
+        }
     }
 
     private void seedDatabase() throws IOException {
