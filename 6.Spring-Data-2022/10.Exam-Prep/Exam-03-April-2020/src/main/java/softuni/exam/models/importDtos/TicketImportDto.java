@@ -1,5 +1,6 @@
 package softuni.exam.models.importDtos;
 
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,6 +33,7 @@ public class TicketImportDto {
     private String serialNumber;
 
     @XmlElement
+    @Positive
     private BigDecimal price;
 
     @XmlElement(name = "take-off")
