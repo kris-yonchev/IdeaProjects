@@ -2,19 +2,19 @@ package core;
 
 import models.Route;
 
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MoovItImpl implements MoovIt {
 
     private Map<String, Route> byId;
     private Map<String, Route> favorites;
+    private Set<Route> routes;
 
     public MoovItImpl() {
         this.byId = new LinkedHashMap<>();
         this.favorites = new LinkedHashMap<>();
+        this.routes = new LinkedHashSet<>();
     }
 
     @Override
@@ -24,6 +24,7 @@ public class MoovItImpl implements MoovIt {
             throw new IllegalArgumentException();
         }
         byId.putIfAbsent(id, route);
+        routes.add(route);
         if (route.getIsFavorite()) {
             favorites.putIfAbsent(id, route);
         }
@@ -34,26 +35,15 @@ public class MoovItImpl implements MoovIt {
         if (!byId.containsKey(routeId)) {
             throw new IllegalArgumentException();
         }
+        Route route = byId.get(routeId);
         byId.remove(routeId);
         favorites.remove(routeId);
+        routes.remove(route);
     }
 
     @Override
     public boolean contains(Route route) {
-        Route check = byId.values().stream().filter(r -> Double.compare(r.getDistance(), route.getDistance()) == 0
-                && r.getLocationPoints().get(0).equals(route.getLocationPoints().get(0))
-                && r.getLocationPoints().get(r.getLocationPoints().size() - 1).equals(route.getLocationPoints().get(route.getLocationPoints().size() - 1)))
-                .findFirst()
-                .orElse(null);
-        if (check != null) {
-            return true;
-        }
-
-        if (!byId.containsKey(route.getId())) {
-            return false;
-        }
-
-        return byId.containsKey(route.getId());
+        return this.routes.contains(route) || this.byId.containsKey(route.getId());
     }
 
     @Override
@@ -81,7 +71,7 @@ public class MoovItImpl implements MoovIt {
 
     @Override
     public Iterable<Route> searchRoutes(String startPoint, String endPoint) {
-        return byId.values().stream().filter(r -> r.getLocationPoints().contains(startPoint) && r.getLocationPoints().contains(endPoint) &&
+        return routes.stream().filter(r -> r.getLocationPoints().contains(startPoint) && r.getLocationPoints().contains(endPoint) &&
                 r.getLocationPoints().indexOf(endPoint) > r.getLocationPoints().indexOf(startPoint))
                 .sorted((r1, r2) -> {
                     int result = Boolean.compare(r1.getIsFavorite(), r2.getIsFavorite());
@@ -112,7 +102,7 @@ public class MoovItImpl implements MoovIt {
 
     @Override
     public Iterable<Route> getTop5RoutesByPopularityThenByDistanceThenByCountOfLocationPoints() {
-        return byId.values().stream()
+        return routes.stream()
                 .sorted(Comparator.comparingInt(Route::getPopularity).reversed()
                         .thenComparingDouble(Route::getDistance)
                         .thenComparingInt(m -> m.getLocationPoints().size()))
