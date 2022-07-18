@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestClass" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-07-18T12:44:48" hostname="DESKTOP-OTERT4D" time="0.018">
+  <properties/>
+  <testcase name="testShouldReturnFibNumberForValidInput()" classname="TestClass" time="0.016"/>
+  <testcase name="testShouldThrowExceptionForNegativeNumberInput()" classname="TestClass" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
